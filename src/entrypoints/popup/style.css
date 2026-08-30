@@ -1,0 +1,31 @@
+@import '../../styles/shared.css';
+
+body {
+  width: 19rem;
+}
+
+main {
+  padding: 1.25rem;
+}
+
+h1 {
+  margin-bottom: 0.2rem;
+  font-size: 1.45rem;
+}
+
+.tagline,
+.mode {
+  color: var(--olv-muted);
+}
+
+.tagline {
+  margin-bottom: 1.35rem;
+}
+
+.mode {
+  margin: 1rem 0;
+}
+
+button {
+  width: 100%;
+}

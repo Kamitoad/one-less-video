@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OneLessVideo – Einstellungen</title>
+    <script type="module" src="./main.ts"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">OneLessVideo</p>
+        <h1>Einstellungen</h1>
+        <p class="intro">
+          Passe die Reibung an, die vor einem neuen YouTube-Video erscheint.
+        </p>
+      </header>
+
+      <form id="settings-form">
+        <section>
+          <h2>Allgemein</h2>
+          <label class="switch-row" for="enabled">
+            <input id="enabled" type="checkbox" />
+            OneLessVideo aktivieren
+          </label>
+        </section>
+
+        <section>
+          <h2>Absicht</h2>
+          <label class="switch-row" for="require-reason">
+            <input id="require-reason" type="checkbox" />
+            Nach einem Grund fragen
+          </label>
+          <label class="switch-row" for="require-intent">
+            <input id="require-intent" type="checkbox" />
+            Absichtstext verlangen
+          </label>
+          <label class="number-row" for="minimum-intent-length">
+            Mindestzeichen
+            <input
+              id="minimum-intent-length"
+              type="number"
+              min="0"
+              max="500"
+              step="1"
+            />
+          </label>
+        </section>
+
+        <section>
+          <h2>Countdown</h2>
+          <div class="number-grid">
+            <label class="number-row" for="countdown-min">
+              Minimum (Sekunden)
+              <input
+                id="countdown-min"
+                type="number"
+                min="0"
+                max="120"
+                step="1"
+              />
+            </label>
+            <label class="number-row" for="countdown-max">
+              Maximum (Sekunden)
+              <input
+                id="countdown-max"
+                type="number"
+                min="0"
+                max="120"
+                step="1"
+              />
+            </label>
+          </div>
+        </section>
+
+        <section>
+          <h2>Challenge</h2>
+          <label class="switch-row" for="require-challenge">
+            <input id="require-challenge" type="checkbox" />
+            Tipp-Challenge verlangen
+          </label>
+          <label class="number-row" for="challenge-length">
+            Zeichen
+            <input
+              id="challenge-length"
+              type="number"
+              min="3"
+              max="12"
+              step="1"
+            />
+          </label>
+        </section>
+
+        <section>
+          <h2>Anti-Muscle-Memory</h2>
+          <label class="switch-row" for="randomize-position">
+            <input id="randomize-position" type="checkbox" />
+            Position von „Video ansehen“ zufällig wählen
+          </label>
+        </section>
+
+        <div class="form-actions">
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+          <button class="primary" type="submit">Einstellungen speichern</button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
