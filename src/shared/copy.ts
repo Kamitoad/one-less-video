@@ -12,7 +12,9 @@ export const COPY = {
   challengeHeading: 'Tippe folgenden Code:',
   challengeMismatch: 'Der Code stimmt noch nicht überein.',
   back: 'Zurück zu meiner Aufgabe',
-  watch: 'Video ansehen',
+  watch: '3 Sekunden gedrückt halten',
+  watchHolding: (remainingSeconds: number) =>
+    `Noch ${remainingSeconds} ${remainingSeconds === 1 ? 'Sekunde' : 'Sekunden'} halten`,
 } as const;
 
 export const WATCH_REASONS = [

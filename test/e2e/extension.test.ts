@@ -74,7 +74,13 @@ test('completes the intentional viewing flow and removes the lock UI', async ({
   }
   await overlay.getByLabel('Code eingeben').fill(challenge);
   await overlay.getByRole('button', { name: 'Weiter' }).click();
-  await overlay.getByRole('button', { name: 'Video ansehen' }).click();
+  const approve = overlay.getByRole('button', {
+    name: '3 Sekunden gedrückt halten',
+  });
+  await approve.hover();
+  await page.mouse.down();
+  await page.waitForTimeout(3_100);
+  await page.mouse.up();
 
   await expect(overlay).toBeHidden();
 });

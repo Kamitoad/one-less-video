@@ -9,6 +9,7 @@ import type {
 import overlayStyles from './intervention-overlay.css?raw';
 
 const OVERLAY_HOST_ID = 'onelessvideo-intervention-root';
+const APPROVAL_HOLD_MS = 3_000;
 
 interface MountedOverlay {
   host: HTMLElement;
@@ -73,14 +74,86 @@ function waitForDecision(
   }
 
   return new Promise((resolve, reject) => {
+    let approvalTimer: ReturnType<typeof setTimeout> | undefined;
+    let progressTimer: ReturnType<typeof setInterval> | undefined;
+    let holdStartedAt: number | undefined;
+
+    const resetHold = (): void => {
+      if (approvalTimer !== undefined) {
+        clearTimeout(approvalTimer);
+        approvalTimer = undefined;
+      }
+      if (progressTimer !== undefined) {
+        clearInterval(progressTimer);
+        progressTimer = undefined;
+      }
+      holdStartedAt = undefined;
+      approveButton.classList.remove('is-holding');
+      approveButton.textContent = COPY.watch;
+    };
     const cleanup = (): void => {
-      approveButton.removeEventListener('click', handleApprove);
+      resetHold();
+      approveButton.removeEventListener('click', preventShortClick);
+      approveButton.removeEventListener('pointerdown', handlePointerDown);
+      approveButton.removeEventListener('pointerleave', resetHold);
+      approveButton.removeEventListener('pointercancel', resetHold);
+      approveButton.removeEventListener('keydown', handleKeyDown);
+      approveButton.removeEventListener('keyup', handleKeyUp);
+      approveButton.removeEventListener('blur', resetHold);
+      approveButton.ownerDocument.defaultView?.removeEventListener(
+        'pointerup',
+        resetHold,
+      );
       abortButton.removeEventListener('click', handleAbortDecision);
       signal.removeEventListener('abort', handleSignalAbort);
     };
-    const handleApprove = (): void => {
+    const approve = (): void => {
       cleanup();
       resolve('approved');
+    };
+    const updateProgressLabel = (): void => {
+      if (holdStartedAt === undefined) {
+        return;
+      }
+      const remainingMs = Math.max(
+        0,
+        APPROVAL_HOLD_MS - (Date.now() - holdStartedAt),
+      );
+      approveButton.textContent = COPY.watchHolding(
+        Math.ceil(remainingMs / 1_000),
+      );
+    };
+    const startHold = (): void => {
+      if (holdStartedAt !== undefined) {
+        return;
+      }
+      holdStartedAt = Date.now();
+      approveButton.classList.add('is-holding');
+      updateProgressLabel();
+      progressTimer = setInterval(updateProgressLabel, 100);
+      approvalTimer = setTimeout(approve, APPROVAL_HOLD_MS);
+    };
+    const preventShortClick = (event: MouseEvent): void => {
+      event.preventDefault();
+    };
+    const handlePointerDown = (event: PointerEvent): void => {
+      if (event.button !== 0 || event.isPrimary === false) {
+        return;
+      }
+      event.preventDefault();
+      startHold();
+    };
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if ((event.key === ' ' || event.key === 'Enter') && !event.repeat) {
+        event.preventDefault();
+        startHold();
+      }
+    };
+    const handleKeyUp = (event: KeyboardEvent): void => {
+      if (event.key === ' ' || event.key === 'Enter') {
+        event.preventDefault();
+        resetHold();
+      }
     };
     const handleAbortDecision = (): void => {
       cleanup();
@@ -91,7 +164,17 @@ function waitForDecision(
       reject(getAbortError(signal));
     };
 
-    approveButton.addEventListener('click', handleApprove);
+    approveButton.addEventListener('click', preventShortClick);
+    approveButton.addEventListener('pointerdown', handlePointerDown);
+    approveButton.addEventListener('pointerleave', resetHold);
+    approveButton.addEventListener('pointercancel', resetHold);
+    approveButton.addEventListener('keydown', handleKeyDown);
+    approveButton.addEventListener('keyup', handleKeyUp);
+    approveButton.addEventListener('blur', resetHold);
+    approveButton.ownerDocument.defaultView?.addEventListener(
+      'pointerup',
+      resetHold,
+    );
     abortButton.addEventListener('click', handleAbortDecision);
     signal.addEventListener('abort', handleSignalAbort, { once: true });
   });

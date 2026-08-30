@@ -31,6 +31,7 @@ async function flushPromises(): Promise<void> {
 
 describe('InterventionOverlay', () => {
   afterEach(() => {
+    vi.useRealTimers();
     document.body.replaceChildren();
     document.getElementById('onelessvideo-intervention-root')?.remove();
   });
@@ -103,7 +104,24 @@ describe('InterventionOverlay', () => {
     expect(
       document.querySelectorAll('#onelessvideo-intervention-root'),
     ).toHaveLength(1);
-    approve?.click();
+    if (approve === null) {
+      throw new Error('Expected the approval button.');
+    }
+
+    vi.useFakeTimers();
+    approve.dispatchEvent(
+      new MouseEvent('pointerdown', { bubbles: true, button: 0 }),
+    );
+    await vi.advanceTimersByTimeAsync(2_999);
+    expect(shadowRoot().querySelector('.continue-button')).not.toBeNull();
+    window.dispatchEvent(new MouseEvent('pointerup'));
+    await vi.advanceTimersByTimeAsync(3_000);
+    expect(shadowRoot().querySelector('.continue-button')).not.toBeNull();
+
+    approve.dispatchEvent(
+      new MouseEvent('pointerdown', { bubbles: true, button: 0 }),
+    );
+    await vi.advanceTimersByTimeAsync(3_000);
 
     await expect(run).resolves.toBe('approved');
     expect(

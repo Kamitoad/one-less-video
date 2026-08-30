@@ -234,8 +234,30 @@ button:hover {
 }
 
 .continue-button {
+  position: relative;
+  overflow: hidden;
   align-self: center;
   justify-self: center;
+}
+
+.continue-button::before {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  content: '';
+  opacity: 0.45;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.continue-button.is-holding::before {
+  animation: approval-progress 3s linear forwards;
+}
+
+@keyframes approval-progress {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .position-top-left {
@@ -292,5 +314,9 @@ button:hover {
   *::after {
     scroll-behavior: auto !important;
     transition: none !important;
+  }
+
+  .continue-button.is-holding::before {
+    animation: none;
   }
 }
