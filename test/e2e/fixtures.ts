@@ -18,7 +18,9 @@ export const test = base.extend<ExtensionFixtures>({
       Parameters<typeof chromium.launchPersistentContext>[1]
     > = {
       headless: true,
+      locale: 'en-US',
       args: [
+        '--lang=en-US',
         `--disable-extensions-except=${extensionPath}`,
         `--load-extension=${extensionPath}`,
       ],

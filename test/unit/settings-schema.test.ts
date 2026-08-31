@@ -68,6 +68,10 @@ describe('settings schema', () => {
       typingChallengeLength: SETTINGS_LIMITS.typingChallengeLength.min - 1,
     });
 
-    expect(errors).toHaveLength(3);
+    expect(errors).toEqual([
+      'validationIntentLength',
+      'validationCountdownOrder',
+      'validationChallengeLength',
+    ]);
   });
 });

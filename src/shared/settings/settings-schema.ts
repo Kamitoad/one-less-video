@@ -1,6 +1,12 @@
 import { DEFAULT_SETTINGS, SETTINGS_LIMITS } from './settings-defaults';
 import type { Settings, StoredSettings } from './settings-types';
 
+export type SettingsValidationError =
+  | 'validationIntentLength'
+  | 'validationCountdownRange'
+  | 'validationCountdownOrder'
+  | 'validationChallengeLength';
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -110,8 +116,10 @@ export function createStoredSettings(settings: Settings): StoredSettings {
   };
 }
 
-export function validateSettings(settings: Settings): string[] {
-  const errors: string[] = [];
+export function validateSettings(
+  settings: Settings,
+): SettingsValidationError[] {
+  const errors: SettingsValidationError[] = [];
   const intent = SETTINGS_LIMITS.minimumIntentLength;
   const countdown = SETTINGS_LIMITS.countdownMs;
   const challenge = SETTINGS_LIMITS.typingChallengeLength;
@@ -121,9 +129,7 @@ export function validateSettings(settings: Settings): string[] {
     settings.minimumIntentLength < intent.min ||
     settings.minimumIntentLength > intent.max
   ) {
-    errors.push(
-      `Die Mindestlänge muss zwischen ${intent.min} und ${intent.max} liegen.`,
-    );
+    errors.push('validationIntentLength');
   }
 
   if (
@@ -134,11 +140,9 @@ export function validateSettings(settings: Settings): string[] {
     settings.countdownMaxMs < countdown.min ||
     settings.countdownMaxMs > countdown.max
   ) {
-    errors.push('Der Countdown muss zwischen 0 und 120 Sekunden liegen.');
+    errors.push('validationCountdownRange');
   } else if (settings.countdownMinMs > settings.countdownMaxMs) {
-    errors.push(
-      'Das Countdown-Minimum darf nicht größer als das Maximum sein.',
-    );
+    errors.push('validationCountdownOrder');
   }
 
   if (
@@ -146,9 +150,7 @@ export function validateSettings(settings: Settings): string[] {
     settings.typingChallengeLength < challenge.min ||
     settings.typingChallengeLength > challenge.max
   ) {
-    errors.push(
-      `Die Code-Länge muss zwischen ${challenge.min} und ${challenge.max} liegen.`,
-    );
+    errors.push('validationChallengeLength');
   }
 
   return errors;

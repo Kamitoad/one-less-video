@@ -84,6 +84,31 @@ input[type='number'] {
   margin: 0;
 }
 
+.status.error {
+  padding: 0.65rem 0.8rem;
+  border-left: 3px solid var(--olv-error);
+  border-radius: 0.25rem;
+  background: rgb(240 164 164 / 8%);
+}
+
+.status.validation-shake {
+  animation: validation-shake 180ms ease-in-out;
+}
+
+input[aria-invalid='true'] {
+  border-color: var(--olv-error);
+}
+
+@keyframes validation-shake {
+  25% {
+    transform: translateX(-0.2rem);
+  }
+
+  75% {
+    transform: translateX(0.2rem);
+  }
+}
+
 .primary {
   border-color: var(--olv-accent);
   color: var(--olv-background);
@@ -99,5 +124,11 @@ input[type='number'] {
   .form-actions {
     align-items: stretch;
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status.validation-shake {
+    animation: none;
   }
 }

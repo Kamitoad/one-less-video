@@ -1,0 +1,188 @@
+{
+  "extensionName": {
+    "message": "OneLessVideo"
+  },
+  "extensionDescription": {
+    "message": "Fördert bewusste Entscheidungen vor YouTube-Videos durch konfigurierbare Reibung."
+  },
+  "tagline": {
+    "message": "Mach jedes Video zu einer bewussten Entscheidung."
+  },
+  "enabledLabel": {
+    "message": "Aktiviert"
+  },
+  "modeLabel": {
+    "message": "Modus:"
+  },
+  "modeStandard": {
+    "message": "Standard"
+  },
+  "settingsButton": {
+    "message": "Einstellungen"
+  },
+  "interventionsEnabled": {
+    "message": "Interventionen aktiviert."
+  },
+  "interventionsDisabled": {
+    "message": "Interventionen deaktiviert."
+  },
+  "settingSaveError": {
+    "message": "Die Einstellung konnte nicht gespeichert werden."
+  },
+  "optionsDocumentTitle": {
+    "message": "OneLessVideo – Einstellungen"
+  },
+  "settingsHeading": {
+    "message": "Einstellungen"
+  },
+  "settingsIntro": {
+    "message": "Passe die Reibung an, die vor einem neuen YouTube-Video erscheint."
+  },
+  "generalHeading": {
+    "message": "Allgemein"
+  },
+  "enableOneLessVideo": {
+    "message": "OneLessVideo aktivieren"
+  },
+  "intentSectionHeading": {
+    "message": "Absicht"
+  },
+  "askReason": {
+    "message": "Nach einem Grund fragen"
+  },
+  "requireIntentText": {
+    "message": "Absichtstext verlangen"
+  },
+  "minimumCharacters": {
+    "message": "Mindestzeichen"
+  },
+  "countdownSectionHeading": {
+    "message": "Countdown"
+  },
+  "minimumSeconds": {
+    "message": "Minimum (Sekunden)"
+  },
+  "maximumSeconds": {
+    "message": "Maximum (Sekunden)"
+  },
+  "challengeSectionHeading": {
+    "message": "Challenge"
+  },
+  "requireTypingChallenge": {
+    "message": "Tipp-Challenge verlangen"
+  },
+  "characters": {
+    "message": "Zeichen"
+  },
+  "antiMuscleMemoryHeading": {
+    "message": "Anti-Muscle-Memory"
+  },
+  "randomizeWatchPosition": {
+    "message": "Position des abschließenden Freigabebuttons zufällig wählen"
+  },
+  "saveSettings": {
+    "message": "Einstellungen speichern"
+  },
+  "settingsSaved": {
+    "message": "Einstellungen gespeichert."
+  },
+  "settingsSaveError": {
+    "message": "Die Einstellungen konnten nicht gespeichert werden."
+  },
+  "settingsLoadError": {
+    "message": "Die gespeicherten Einstellungen konnten nicht geladen werden. Stattdessen werden Standardwerte angezeigt."
+  },
+  "validationIntentLength": {
+    "message": "Die Mindestlänge muss zwischen $1 und $2 liegen."
+  },
+  "validationCountdownRange": {
+    "message": "Der Countdown muss zwischen 0 und 120 Sekunden liegen."
+  },
+  "validationCountdownOrder": {
+    "message": "Das Countdown-Minimum darf nicht größer als das Maximum sein."
+  },
+  "validationChallengeLength": {
+    "message": "Die Code-Länge muss zwischen $1 und $2 liegen."
+  },
+  "intentHeading": {
+    "message": "Warum möchtest du dieses Video ansehen?"
+  },
+  "reasonLegend": {
+    "message": "Grund auswählen"
+  },
+  "reasonLearn": {
+    "message": "Lernen"
+  },
+  "reasonStudyWork": {
+    "message": "Uni / Arbeit"
+  },
+  "reasonMusic": {
+    "message": "Musik"
+  },
+  "reasonEntertainment": {
+    "message": "Unterhaltung"
+  },
+  "reasonBoredom": {
+    "message": "Langeweile"
+  },
+  "reasonHabit": {
+    "message": "Gewohnheit"
+  },
+  "reasonNoClearReason": {
+    "message": "Kein klarer Grund"
+  },
+  "reasonOther": {
+    "message": "Sonstiges"
+  },
+  "intentPrompt": {
+    "message": "Warum ist dieses Video gerade die richtige Entscheidung?"
+  },
+  "minimumCharactersHint": {
+    "message": "Mindestens $1 Zeichen. Der Text wird nicht gespeichert."
+  },
+  "continueButton": {
+    "message": "Weiter"
+  },
+  "reasonRequired": {
+    "message": "Bitte wähle einen Grund aus."
+  },
+  "intentTooShort": {
+    "message": "Bitte gib mindestens $1 Zeichen ein."
+  },
+  "countdownDecisionHeading": {
+    "message": "Du hast dich entschieden, weitere Zeit auf YouTube zu verbringen."
+  },
+  "countdownPrompt": {
+    "message": "Bitte warte:"
+  },
+  "secondsRemaining": {
+    "message": "$1 Sekunden verbleiben"
+  },
+  "challengeHeading": {
+    "message": "Tippe folgenden Code:"
+  },
+  "challengeInputLabel": {
+    "message": "Code eingeben"
+  },
+  "challengeMismatch": {
+    "message": "Der Code stimmt noch nicht überein."
+  },
+  "decisionHeading": {
+    "message": "Triff eine bewusste Entscheidung."
+  },
+  "decisionCopy": {
+    "message": "Du kannst zu deiner vorherigen Aufgabe zurückkehren oder dieses Video jetzt bewusst ansehen."
+  },
+  "backButton": {
+    "message": "Zurück zu meiner Aufgabe"
+  },
+  "watchHoldButton": {
+    "message": "3 Sekunden gedrückt halten"
+  },
+  "watchHoldingOne": {
+    "message": "Noch 1 Sekunde halten"
+  },
+  "watchHoldingMany": {
+    "message": "Noch $1 Sekunden halten"
+  }
+}

@@ -1,42 +1,42 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OneLessVideo – Einstellungen</title>
+    <title data-i18n="optionsDocumentTitle">OneLessVideo – Settings</title>
     <script type="module" src="./main.ts"></script>
   </head>
   <body>
     <main>
       <header>
         <p class="eyebrow">OneLessVideo</p>
-        <h1>Einstellungen</h1>
-        <p class="intro">
-          Passe die Reibung an, die vor einem neuen YouTube-Video erscheint.
+        <h1 data-i18n="settingsHeading">Settings</h1>
+        <p class="intro" data-i18n="settingsIntro">
+          Adjust the friction that appears before a new YouTube video.
         </p>
       </header>
 
-      <form id="settings-form">
+      <form id="settings-form" novalidate inert aria-busy="true">
         <section>
-          <h2>Allgemein</h2>
+          <h2 data-i18n="generalHeading">General</h2>
           <label class="switch-row" for="enabled">
             <input id="enabled" type="checkbox" />
-            OneLessVideo aktivieren
+            <span data-i18n="enableOneLessVideo">Enable OneLessVideo</span>
           </label>
         </section>
 
         <section>
-          <h2>Absicht</h2>
+          <h2 data-i18n="intentSectionHeading">Intention</h2>
           <label class="switch-row" for="require-reason">
             <input id="require-reason" type="checkbox" />
-            Nach einem Grund fragen
+            <span data-i18n="askReason">Ask for a reason</span>
           </label>
           <label class="switch-row" for="require-intent">
             <input id="require-intent" type="checkbox" />
-            Absichtstext verlangen
+            <span data-i18n="requireIntentText">Require intention text</span>
           </label>
           <label class="number-row" for="minimum-intent-length">
-            Mindestzeichen
+            <span data-i18n="minimumCharacters">Minimum characters</span>
             <input
               id="minimum-intent-length"
               type="number"
@@ -48,10 +48,10 @@
         </section>
 
         <section>
-          <h2>Countdown</h2>
+          <h2 data-i18n="countdownSectionHeading">Countdown</h2>
           <div class="number-grid">
             <label class="number-row" for="countdown-min">
-              Minimum (Sekunden)
+              <span data-i18n="minimumSeconds">Minimum (seconds)</span>
               <input
                 id="countdown-min"
                 type="number"
@@ -61,7 +61,7 @@
               />
             </label>
             <label class="number-row" for="countdown-max">
-              Maximum (Sekunden)
+              <span data-i18n="maximumSeconds">Maximum (seconds)</span>
               <input
                 id="countdown-max"
                 type="number"
@@ -74,13 +74,15 @@
         </section>
 
         <section>
-          <h2>Challenge</h2>
+          <h2 data-i18n="challengeSectionHeading">Challenge</h2>
           <label class="switch-row" for="require-challenge">
             <input id="require-challenge" type="checkbox" />
-            Tipp-Challenge verlangen
+            <span data-i18n="requireTypingChallenge">
+              Require typing challenge
+            </span>
           </label>
           <label class="number-row" for="challenge-length">
-            Zeichen
+            <span data-i18n="characters">Characters</span>
             <input
               id="challenge-length"
               type="number"
@@ -92,16 +94,26 @@
         </section>
 
         <section>
-          <h2>Anti-Muscle-Memory</h2>
+          <h2 data-i18n="antiMuscleMemoryHeading">Anti-muscle-memory</h2>
           <label class="switch-row" for="randomize-position">
             <input id="randomize-position" type="checkbox" />
-            Position von „Video ansehen“ zufällig wählen
+            <span data-i18n="randomizeWatchPosition">
+              Randomize the position of the final approval button
+            </span>
           </label>
         </section>
 
         <div class="form-actions">
-          <p id="status" class="status" role="status" aria-live="polite"></p>
-          <button class="primary" type="submit">Einstellungen speichern</button>
+          <p
+            id="status"
+            class="status"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
+          <button class="primary" type="submit" data-i18n="saveSettings">
+            Save settings
+          </button>
         </div>
       </form>
     </main>

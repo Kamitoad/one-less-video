@@ -1,4 +1,4 @@
-import { COPY, WATCH_REASONS } from '../../../shared/copy';
+import { translate, WATCH_REASON_KEYS } from '../../../shared/i18n/i18n';
 import { getAbortError, runCountdown } from '../../../shared/time/countdown';
 import type { InterventionExperience } from '../intervention-controller';
 import type {
@@ -64,6 +64,38 @@ function waitForValidatedSubmit(
   });
 }
 
+function showValidationError(
+  form: HTMLFormElement,
+  error: HTMLElement,
+  message: string,
+  invalidControl: HTMLElement,
+): void {
+  form
+    .querySelectorAll<HTMLElement>('[aria-invalid="true"]')
+    .forEach((control) => {
+      control.removeAttribute('aria-invalid');
+      control.removeAttribute('aria-describedby');
+    });
+  error.textContent = message;
+  invalidControl.setAttribute('aria-invalid', 'true');
+  invalidControl.setAttribute('aria-describedby', error.id);
+  error.classList.remove('validation-shake');
+  void error.offsetWidth;
+  error.classList.add('validation-shake');
+  invalidControl.focus();
+}
+
+function clearValidationError(form: HTMLFormElement, error: HTMLElement): void {
+  form
+    .querySelectorAll<HTMLElement>('[aria-invalid="true"]')
+    .forEach((control) => {
+      control.removeAttribute('aria-invalid');
+      control.removeAttribute('aria-describedby');
+    });
+  error.textContent = '';
+  error.classList.remove('validation-shake');
+}
+
 function waitForDecision(
   approveButton: HTMLButtonElement,
   abortButton: HTMLButtonElement,
@@ -89,7 +121,7 @@ function waitForDecision(
       }
       holdStartedAt = undefined;
       approveButton.classList.remove('is-holding');
-      approveButton.textContent = COPY.watch;
+      approveButton.textContent = translate('watchHoldButton');
     };
     const cleanup = (): void => {
       resetHold();
@@ -119,8 +151,10 @@ function waitForDecision(
         0,
         APPROVAL_HOLD_MS - (Date.now() - holdStartedAt),
       );
-      approveButton.textContent = COPY.watchHolding(
-        Math.ceil(remainingMs / 1_000),
+      const remainingSeconds = Math.ceil(remainingMs / 1_000);
+      approveButton.textContent = translate(
+        remainingSeconds === 1 ? 'watchHoldingOne' : 'watchHoldingMany',
+        [remainingSeconds],
       );
     };
     const startHold = (): void => {
@@ -237,7 +271,7 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'p',
       'eyebrow',
-      'OneLessVideo',
+      translate('extensionName'),
     );
     const content = createElement(this.document, 'div');
 
@@ -262,16 +296,19 @@ export class InterventionOverlay implements InterventionExperience {
     signal: AbortSignal,
   ): Promise<void> {
     const form = createElement(this.document, 'form');
+    form.noValidate = true;
     const title = createElement(
       this.document,
       'h1',
       undefined,
-      COPY.intentHeading,
+      translate('intentHeading'),
     );
     title.id = 'olv-dialog-title';
     const error = createElement(this.document, 'p', 'error');
+    error.id = 'olv-validation-error';
     error.setAttribute('role', 'status');
     error.setAttribute('aria-live', 'polite');
+    error.setAttribute('aria-atomic', 'true');
     let firstControl: HTMLElement | undefined;
 
     form.append(title);
@@ -281,10 +318,11 @@ export class InterventionOverlay implements InterventionExperience {
         this.document,
         'legend',
         undefined,
-        'Grund auswählen',
+        translate('reasonLegend'),
       );
       fieldset.append(legend);
-      WATCH_REASONS.forEach((reason, index) => {
+      WATCH_REASON_KEYS.forEach((reasonKey, index) => {
+        const reason = translate(reasonKey);
         const label = createElement(this.document, 'label', 'reason');
         const input = createElement(this.document, 'input');
         input.type = 'radio';
@@ -312,7 +350,7 @@ export class InterventionOverlay implements InterventionExperience {
         this.document,
         'label',
         'text-label',
-        COPY.intentPrompt,
+        translate('intentPrompt'),
       );
       label.htmlFor = 'olv-intent';
       intentInput = createElement(this.document, 'textarea');
@@ -324,7 +362,7 @@ export class InterventionOverlay implements InterventionExperience {
         this.document,
         'p',
         'hint',
-        `Mindestens ${plan.minimumIntentLength} Zeichen. Der Text wird nicht gespeichert.`,
+        translate('minimumCharactersHint', [plan.minimumIntentLength]),
       );
       form.append(label, intentInput, hint);
       firstControl ??= intentInput;
@@ -335,7 +373,7 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'button',
       'primary',
-      COPY.continue,
+      translate('continueButton'),
     );
     submit.type = 'submit';
     actions.append(submit);
@@ -349,25 +387,37 @@ export class InterventionOverlay implements InterventionExperience {
         plan.requireReason &&
         form.elements.namedItem('watch-reason') === null
       ) {
-        error.textContent = COPY.reasonRequired;
+        showValidationError(form, error, translate('reasonRequired'), submit);
         return false;
       }
       if (
         plan.requireReason &&
         !form.querySelector('input[name="watch-reason"]:checked')
       ) {
-        error.textContent = COPY.reasonRequired;
+        const firstReason = form.querySelector<HTMLInputElement>(
+          'input[name="watch-reason"]',
+        );
+        showValidationError(
+          form,
+          error,
+          translate('reasonRequired'),
+          firstReason ?? submit,
+        );
         return false;
       }
       if (
         intentInput !== undefined &&
         intentInput.value.trim().length < plan.minimumIntentLength
       ) {
-        error.textContent = COPY.intentTooShort(plan.minimumIntentLength);
-        intentInput.focus();
+        showValidationError(
+          form,
+          error,
+          translate('intentTooShort', [plan.minimumIntentLength]),
+          intentInput,
+        );
         return false;
       }
-      error.textContent = '';
+      clearValidationError(form, error);
       return true;
     });
   }
@@ -381,14 +431,14 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'h1',
       undefined,
-      COPY.countdownHeading,
+      translate('countdownDecisionHeading'),
     );
     title.id = 'olv-dialog-title';
     const prompt = createElement(
       this.document,
       'p',
       undefined,
-      COPY.countdownPrompt,
+      translate('countdownPrompt'),
     );
     const timer = createElement(this.document, 'p', 'countdown');
     timer.setAttribute('role', 'timer');
@@ -400,7 +450,7 @@ export class InterventionOverlay implements InterventionExperience {
       timer.textContent = formatRemainingTime(remainingMs);
       timer.setAttribute(
         'aria-label',
-        `${Math.ceil(remainingMs / 1_000)} Sekunden verbleiben`,
+        translate('secondsRemaining', [Math.ceil(remainingMs / 1_000)]),
       );
     });
   }
@@ -411,11 +461,12 @@ export class InterventionOverlay implements InterventionExperience {
     signal: AbortSignal,
   ): Promise<void> {
     const form = createElement(this.document, 'form');
+    form.noValidate = true;
     const title = createElement(
       this.document,
       'h1',
       undefined,
-      COPY.challengeHeading,
+      translate('challengeHeading'),
     );
     title.id = 'olv-dialog-title';
     const code = createElement(this.document, 'p', 'challenge-code', challenge);
@@ -423,7 +474,7 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'label',
       'text-label',
-      'Code eingeben',
+      translate('challengeInputLabel'),
     );
     label.htmlFor = 'olv-challenge';
     const input = createElement(this.document, 'input', 'challenge-input');
@@ -435,14 +486,27 @@ export class InterventionOverlay implements InterventionExperience {
     input.maxLength = challenge.length;
     input.required = true;
     input.setAttribute('autocapitalize', 'characters');
+    input.addEventListener('input', () => {
+      const selectionStart = input.selectionStart;
+      const selectionEnd = input.selectionEnd;
+      const normalizedValue = input.value.toUpperCase();
+      if (normalizedValue === input.value) {
+        return;
+      }
+      input.value = normalizedValue;
+      input.setSelectionRange(selectionStart, selectionEnd);
+    });
     const error = createElement(this.document, 'p', 'error');
+    error.id = 'olv-validation-error';
     error.setAttribute('role', 'status');
+    error.setAttribute('aria-live', 'polite');
+    error.setAttribute('aria-atomic', 'true');
     const actions = createElement(this.document, 'div', 'actions');
     const submit = createElement(
       this.document,
       'button',
       'primary',
-      COPY.continue,
+      translate('continueButton'),
     );
     submit.type = 'submit';
     actions.append(submit);
@@ -451,11 +515,14 @@ export class InterventionOverlay implements InterventionExperience {
     input.focus();
 
     await waitForValidatedSubmit(form, signal, () => {
-      if (input.value !== challenge) {
-        error.textContent = COPY.challengeMismatch;
+      const normalizedValue = input.value.toUpperCase();
+      if (normalizedValue !== challenge.toUpperCase()) {
+        showValidationError(form, error, translate('challengeMismatch'), input);
         input.select();
         return false;
       }
+      input.value = normalizedValue;
+      clearValidationError(form, error);
       return true;
     });
   }
@@ -469,20 +536,20 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'h1',
       undefined,
-      'Triff eine bewusste Entscheidung.',
+      translate('decisionHeading'),
     );
     title.id = 'olv-dialog-title';
     const copy = createElement(
       this.document,
       'p',
       'decision-copy',
-      'Du kannst zu deiner vorherigen Aufgabe zurückkehren oder dieses Video jetzt bewusst ansehen.',
+      translate('decisionCopy'),
     );
     const abortButton = createElement(
       this.document,
       'button',
       'back-button',
-      COPY.back,
+      translate('backButton'),
     );
     abortButton.type = 'button';
     const grid = createElement(this.document, 'div', 'continue-grid');
@@ -490,7 +557,7 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'button',
       `primary continue-button position-${plan.continueButtonPosition}`,
-      COPY.watch,
+      translate('watchHoldButton'),
     );
     approveButton.type = 'button';
     grid.append(approveButton);

@@ -167,6 +167,31 @@ button:focus-visible,
   color: var(--olv-danger);
 }
 
+.error:not(:empty) {
+  padding: 0.65rem 0.8rem;
+  border-left: 3px solid var(--olv-danger);
+  border-radius: 0.25rem;
+  background: rgb(240 164 164 / 8%);
+}
+
+.error.validation-shake {
+  animation: validation-shake 180ms ease-in-out;
+}
+
+[aria-invalid='true'] {
+  border-color: var(--olv-danger);
+}
+
+@keyframes validation-shake {
+  25% {
+    transform: translateX(-0.2rem);
+  }
+
+  75% {
+    transform: translateX(0.2rem);
+  }
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -317,6 +342,10 @@ button:hover {
   }
 
   .continue-button.is-holding::before {
+    animation: none;
+  }
+
+  .error.validation-shake {
     animation: none;
   }
 }

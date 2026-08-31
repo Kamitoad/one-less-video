@@ -46,10 +46,19 @@ describe('InterventionOverlay', () => {
     let root = shadowRoot();
     const intentForm = root.querySelector('form');
     expect(intentForm).not.toBeNull();
+    expect(intentForm?.noValidate).toBe(true);
     intentForm?.dispatchEvent(
       new SubmitEvent('submit', { bubbles: true, cancelable: true }),
     );
-    expect(root.querySelector('.error')?.textContent).toContain('Grund');
+    expect(root.querySelector('.error')?.textContent).toContain('reason');
+    expect(root.querySelector('.error')?.classList).toContain(
+      'validation-shake',
+    );
+    expect(
+      root
+        .querySelector('input[name="watch-reason"]')
+        ?.getAttribute('aria-invalid'),
+    ).toBe('true');
 
     const reason = root.querySelector<HTMLInputElement>(
       'input[name="watch-reason"]',
@@ -87,12 +96,16 @@ describe('InterventionOverlay', () => {
     if (challengeInput === null || challengeForm === null) {
       throw new Error('Expected the challenge controls.');
     }
+    expect(challengeForm.noValidate).toBe(true);
     challengeInput.value = 'WRONG';
     challengeForm.dispatchEvent(
       new SubmitEvent('submit', { bubbles: true, cancelable: true }),
     );
-    expect(root.querySelector('.error')?.textContent).toContain('stimmt');
-    challengeInput.value = 'K7P4X';
+    expect(root.querySelector('.error')?.textContent).toContain('match');
+    expect(challengeInput.getAttribute('aria-invalid')).toBe('true');
+    challengeInput.value = 'k7p4x';
+    challengeInput.dispatchEvent(new InputEvent('input', { bubbles: true }));
+    expect(challengeInput.value).toBe('K7P4X');
     challengeForm.dispatchEvent(
       new SubmitEvent('submit', { bubbles: true, cancelable: true }),
     );

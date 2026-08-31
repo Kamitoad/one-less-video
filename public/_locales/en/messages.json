@@ -1,0 +1,188 @@
+{
+  "extensionName": {
+    "message": "OneLessVideo"
+  },
+  "extensionDescription": {
+    "message": "Adds intentional friction before YouTube videos to interrupt mindless watching."
+  },
+  "tagline": {
+    "message": "Make every video intentional."
+  },
+  "enabledLabel": {
+    "message": "Enabled"
+  },
+  "modeLabel": {
+    "message": "Mode:"
+  },
+  "modeStandard": {
+    "message": "Standard"
+  },
+  "settingsButton": {
+    "message": "Settings"
+  },
+  "interventionsEnabled": {
+    "message": "Interventions enabled."
+  },
+  "interventionsDisabled": {
+    "message": "Interventions disabled."
+  },
+  "settingSaveError": {
+    "message": "The setting could not be saved."
+  },
+  "optionsDocumentTitle": {
+    "message": "OneLessVideo – Settings"
+  },
+  "settingsHeading": {
+    "message": "Settings"
+  },
+  "settingsIntro": {
+    "message": "Adjust the friction that appears before a new YouTube video."
+  },
+  "generalHeading": {
+    "message": "General"
+  },
+  "enableOneLessVideo": {
+    "message": "Enable OneLessVideo"
+  },
+  "intentSectionHeading": {
+    "message": "Intention"
+  },
+  "askReason": {
+    "message": "Ask for a reason"
+  },
+  "requireIntentText": {
+    "message": "Require intention text"
+  },
+  "minimumCharacters": {
+    "message": "Minimum characters"
+  },
+  "countdownSectionHeading": {
+    "message": "Countdown"
+  },
+  "minimumSeconds": {
+    "message": "Minimum (seconds)"
+  },
+  "maximumSeconds": {
+    "message": "Maximum (seconds)"
+  },
+  "challengeSectionHeading": {
+    "message": "Challenge"
+  },
+  "requireTypingChallenge": {
+    "message": "Require typing challenge"
+  },
+  "characters": {
+    "message": "Characters"
+  },
+  "antiMuscleMemoryHeading": {
+    "message": "Anti-muscle-memory"
+  },
+  "randomizeWatchPosition": {
+    "message": "Randomize the position of the final approval button"
+  },
+  "saveSettings": {
+    "message": "Save settings"
+  },
+  "settingsSaved": {
+    "message": "Settings saved."
+  },
+  "settingsSaveError": {
+    "message": "The settings could not be saved."
+  },
+  "settingsLoadError": {
+    "message": "The saved settings could not be loaded. Default values are shown instead."
+  },
+  "validationIntentLength": {
+    "message": "The minimum intention length must be between $1 and $2."
+  },
+  "validationCountdownRange": {
+    "message": "The countdown must be between 0 and 120 seconds."
+  },
+  "validationCountdownOrder": {
+    "message": "The countdown minimum must not exceed the maximum."
+  },
+  "validationChallengeLength": {
+    "message": "The code length must be between $1 and $2."
+  },
+  "intentHeading": {
+    "message": "Why do you want to watch this video?"
+  },
+  "reasonLegend": {
+    "message": "Choose a reason"
+  },
+  "reasonLearn": {
+    "message": "Learning"
+  },
+  "reasonStudyWork": {
+    "message": "Study / work"
+  },
+  "reasonMusic": {
+    "message": "Music"
+  },
+  "reasonEntertainment": {
+    "message": "Entertainment"
+  },
+  "reasonBoredom": {
+    "message": "Boredom"
+  },
+  "reasonHabit": {
+    "message": "Habit"
+  },
+  "reasonNoClearReason": {
+    "message": "No clear reason"
+  },
+  "reasonOther": {
+    "message": "Other"
+  },
+  "intentPrompt": {
+    "message": "Why is this video the right choice right now?"
+  },
+  "minimumCharactersHint": {
+    "message": "At least $1 characters. This text is not saved."
+  },
+  "continueButton": {
+    "message": "Continue"
+  },
+  "reasonRequired": {
+    "message": "Please choose a reason."
+  },
+  "intentTooShort": {
+    "message": "Please enter at least $1 characters."
+  },
+  "countdownDecisionHeading": {
+    "message": "You have chosen to spend more time on YouTube."
+  },
+  "countdownPrompt": {
+    "message": "Please wait:"
+  },
+  "secondsRemaining": {
+    "message": "$1 seconds remaining"
+  },
+  "challengeHeading": {
+    "message": "Type the following code:"
+  },
+  "challengeInputLabel": {
+    "message": "Enter code"
+  },
+  "challengeMismatch": {
+    "message": "The code does not match yet."
+  },
+  "decisionHeading": {
+    "message": "Make a deliberate decision."
+  },
+  "decisionCopy": {
+    "message": "You can return to your previous task or deliberately watch this video now."
+  },
+  "backButton": {
+    "message": "Return to my task"
+  },
+  "watchHoldButton": {
+    "message": "Hold for 3 seconds"
+  },
+  "watchHoldingOne": {
+    "message": "Hold for 1 more second"
+  },
+  "watchHoldingMany": {
+    "message": "Hold for $1 more seconds"
+  }
+}

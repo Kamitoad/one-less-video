@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,14 +9,19 @@
   <body>
     <main>
       <h1>OneLessVideo</h1>
-      <p class="tagline">Make every video intentional.</p>
+      <p class="tagline" data-i18n="tagline">Make every video intentional.</p>
       <label class="switch-row" for="enabled">
         <input id="enabled" type="checkbox" />
-        Aktiviert
+        <span data-i18n="enabledLabel">Enabled</span>
       </label>
-      <p class="mode">Modus: <strong>Standard</strong></p>
+      <p class="mode">
+        <span data-i18n="modeLabel">Mode:</span>
+        <strong data-i18n="modeStandard">Standard</strong>
+      </p>
       <p id="status" class="status" role="status" aria-live="polite"></p>
-      <button id="open-settings" type="button">Einstellungen</button>
+      <button id="open-settings" type="button" data-i18n="settingsButton">
+        Settings
+      </button>
     </main>
   </body>
 </html>

@@ -30,12 +30,8 @@ async function configureExtension(
   await expect(options.locator('#countdown-min')).toHaveValue('5');
   await options.locator('#countdown-min').fill(countdownSeconds.toString());
   await options.locator('#countdown-max').fill(countdownSeconds.toString());
-  await options
-    .getByRole('button', { name: 'Einstellungen speichern' })
-    .click();
-  await expect(options.locator('#status')).toHaveText(
-    'Einstellungen gespeichert.',
-  );
+  await options.getByRole('button', { name: 'Save settings' }).click();
+  await expect(options.locator('#status')).toHaveText('Settings saved.');
   await options.close();
 }
 
@@ -50,6 +46,30 @@ async function openControlledVideo(
   await expect(page.locator('#onelessvideo-intervention-root')).toBeVisible();
 }
 
+test('shows accessible inline settings errors instead of native validation UI', async ({
+  context,
+  extensionId,
+}) => {
+  const options = await context.newPage();
+  await options.goto(`chrome-extension://${extensionId}/options.html`);
+  await expect(options.locator('#settings-form')).toHaveAttribute(
+    'aria-busy',
+    'false',
+  );
+  const countdownMin = options.locator('#countdown-min');
+
+  await countdownMin.fill('121');
+  await options.getByRole('button', { name: 'Save settings' }).click();
+
+  const status = options.locator('#status');
+  await expect(status).toHaveText(
+    'The countdown must be between 0 and 120 seconds.',
+  );
+  await expect(status).toHaveClass(/validation-shake/);
+  await expect(countdownMin).toHaveAttribute('aria-invalid', 'true');
+  await expect(countdownMin).toBeFocused();
+});
+
 test('completes the intentional viewing flow and removes the lock UI', async ({
   context,
   extensionId,
@@ -59,23 +79,25 @@ test('completes the intentional viewing flow and removes the lock UI', async ({
   await openControlledVideo(page);
   const overlay = page.locator('#onelessvideo-intervention-root');
 
-  await overlay.getByLabel('Lernen', { exact: true }).check();
+  await overlay.getByLabel('Learning', { exact: true }).check();
   await overlay
-    .getByLabel('Warum ist dieses Video gerade die richtige Entscheidung?')
+    .getByLabel('Why is this video the right choice right now?')
     .pressSequentially(
       'Ich recherchiere dieses Thema für meine aktuelle Aufgabe.',
     );
   await expect(page.locator('html')).toHaveAttribute('data-shortcut-hits', '0');
-  await overlay.getByRole('button', { name: 'Weiter' }).click();
+  await overlay.getByRole('button', { name: 'Continue' }).click();
 
   const challenge = await overlay.locator('.challenge-code').textContent();
   if (challenge === null) {
     throw new Error('Expected a typing challenge.');
   }
-  await overlay.getByLabel('Code eingeben').fill(challenge);
-  await overlay.getByRole('button', { name: 'Weiter' }).click();
+  const challengeInput = overlay.getByLabel('Enter code');
+  await challengeInput.fill(challenge.toLowerCase());
+  await expect(challengeInput).toHaveValue(challenge);
+  await overlay.getByRole('button', { name: 'Continue' }).click();
   const approve = overlay.getByRole('button', {
-    name: '3 Sekunden gedrückt halten',
+    name: 'Hold for 3 seconds',
   });
   await approve.hover();
   await page.mouse.down();
@@ -94,7 +116,7 @@ test('restarts on SPA navigation and ignores duplicate navigation signals', asyn
   await openControlledVideo(page);
   const overlay = page.locator('#onelessvideo-intervention-root');
   const intent = overlay.getByLabel(
-    'Warum ist dieses Video gerade die richtige Entscheidung?',
+    'Why is this video the right choice right now?',
   );
   await intent.fill('Text from video A that must be discarded.');
 
@@ -126,12 +148,10 @@ test('disabling from the popup removes an active intervention immediately', asyn
 
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
-  const enabled = popup.getByLabel('Aktiviert');
+  const enabled = popup.getByLabel('Enabled');
   await expect(enabled).toBeChecked();
   await enabled.uncheck();
 
   await expect(page.locator('#onelessvideo-intervention-root')).toBeHidden();
-  await expect(popup.locator('#status')).toHaveText(
-    'Interventionen deaktiviert.',
-  );
+  await expect(popup.locator('#status')).toHaveText('Interventions disabled.');
 });
