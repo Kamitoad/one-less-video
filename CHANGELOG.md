@@ -18,6 +18,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Deterministic unit, DOM, lifecycle, race, and built-extension tests.
 - Privacy, security, contribution, and release documentation.
 
+### Changed
+
+- Use a subdued full-background progress fill for the three-second approval hold.
+- Make manual Chrome and Opera installation from GitHub prominent and unambiguous in the README.
+
 ### Fixed
 
 - Normalize typing-challenge input to uppercase so its visible value and validation behavior match.

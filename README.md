@@ -27,6 +27,50 @@ Version 1 targets Chromium-based Chrome and Opera on `https://www.youtube.com/*`
 
 OneLessVideo creates psychological friction. It is not a security boundary or an anti-tamper tool, and the browser owner can always disable or change it.
 
+## Install manually from GitHub
+
+Until OneLessVideo is available in browser stores, interested users can install a verified GitHub release in Chrome or Opera.
+
+### Preferred: install a release package
+
+1. Open [GitHub Releases](https://github.com/Kamitoad/one-less-video/releases).
+2. Download the `*-chrome.zip` file for the desired version. Do not download the automatically generated **Source code** archives.
+3. Extract the ZIP to a permanent directory. Moving or deleting this directory later will break the developer-mode installation.
+4. Confirm that `manifest.json` is directly inside the extracted directory.
+5. Load that directory using the instructions for your browser below.
+
+#### Chrome
+
+1. Open `chrome://extensions`.
+2. Enable **Developer mode** in the top-right corner.
+3. Select **Load unpacked**.
+4. Select the extracted directory that directly contains `manifest.json`.
+
+#### Opera
+
+1. Open `opera://extensions`.
+2. Enable **Developer mode** in the top-right corner.
+3. Select **Load unpacked**.
+4. Select the extracted directory that directly contains `manifest.json`.
+
+Developer-mode installations do not update automatically. For a newer version, download and extract the new release package, then reload or replace the existing installation.
+
+### Fallback: build the GitHub source code
+
+Use this only when no release package is available:
+
+1. Install Node.js 24.
+2. Clone this repository, or choose **Code → Download ZIP** on GitHub and extract the source archive.
+3. Open a terminal in the repository directory containing `package.json`.
+4. Run:
+
+   ```bash
+   npm ci
+   npm run build
+   ```
+
+5. Follow the Chrome or Opera instructions above, but select `.output/chrome-mv3`. Do not select the repository root or the `.output` directory itself.
+
 ## Requirements
 
 - Node.js 24 LTS (also recorded in `.nvmrc`)
@@ -63,24 +107,7 @@ npm run build
 
 The E2E suite intercepts YouTube requests and serves a controlled local fixture. It never depends on the live YouTube UI in CI.
 
-## Install a release
-
-1. Open the [GitHub Releases](https://github.com/Kamitoad/one-less-video/releases) page.
-2. Download the `*-chrome.zip` asset for the desired version.
-3. Extract the archive to a permanent local directory.
-4. Follow the Chrome or Opera instructions below and select the extracted directory containing `manifest.json`.
-
-Developer-mode installations do not update automatically. Repeat these steps for a newer release, using a new directory or replacing the extracted files before reloading the extension.
-
-## Build from source
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-WXT writes the unpacked Chromium extension to `.output/chrome-mv3`.
+## Release packaging
 
 Create and verify a distributable ZIP after the complete quality suite:
 
@@ -89,20 +116,6 @@ npm run release:prepare
 ```
 
 The verified `*-chrome.zip` is written to `.output`. Release procedure and versioning details are documented in [docs/RELEASING.md](docs/RELEASING.md).
-
-### Chrome
-
-1. Open `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Choose **Load unpacked**.
-4. Select `.output/chrome-mv3`.
-
-### Opera
-
-1. Open `opera://extensions`.
-2. Enable **Developer mode**.
-3. Choose **Load unpacked**.
-4. Select `.output/chrome-mv3`.
 
 ## Settings
 
