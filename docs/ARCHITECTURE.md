@@ -53,7 +53,7 @@ Unexpected internal errors release the player and remove the overlay. OneLessVid
 
 `buildInterventionPlan` converts validated settings and an injected `RandomSource` into immutable per-run choices: countdown duration, challenge value, and final-button position. Random values are selected once per intervention and are deterministic in tests.
 
-The overlay is mounted in an open Shadow DOM to isolate OneLessVideo and YouTube styles. It uses semantic forms, labels, radio buttons, live validation messages, visible focus states, a focus boundary, and no animation. The final action chooses from a fixed responsive position set and never moves after rendering. The host is scrollable at small viewport heights.
+The overlay is mounted in an open Shadow DOM to isolate OneLessVideo and YouTube styles. It uses semantic forms, labels, radio buttons, live validation messages, visible focus states, and a focus boundary. Keyboard events are stopped at the overlay host so YouTube shortcuts cannot react while the user types. The final action chooses from a fixed responsive position set, never moves after rendering, and requires a continuous three-second pointer or keyboard hold. Releasing, leaving, cancelling, or losing focus resets the hold. Its progress animation is disabled when reduced motion is requested. The host is scrollable at small viewport heights.
 
 The reason and intention exist only in the mounted DOM. They are neither returned to the controller nor persisted or logged.
 
@@ -62,6 +62,10 @@ The reason and intention exist only in the mounted DOM. They are neither returne
 Only the versioned envelope `{ schemaVersion: 1, settings }` is stored under one `browser.storage.local` key. Unknown envelopes return defaults. Known envelopes are normalized field by field with central numeric bounds, and the options page reports invalid ranges before saving. This keeps a future v1-to-v2 migration point without adding a migration framework prematurely.
 
 The manifest requests only `storage`. Content-script host access is limited to `https://www.youtube.com/*`.
+
+## Localization
+
+English is the manifest `default_locale`. English and German messages live in WebExtension `_locales` catalogs with key-parity tests. The manifest uses `__MSG_*__` placeholders, while popup, options, validation, accessibility labels, and Shadow DOM copy resolve the same catalogs through `browser.i18n`. Static HTML contains meaningful English fallback text, and unsupported browser languages fall back to English without adding a language preference to stored settings.
 
 ## Test strategy
 

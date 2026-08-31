@@ -1,0 +1,10 @@
+OneLessVideo brand notice
+
+The OneLessVideo name and logo are Copyright (c) 2026 Chasan Moustafa.
+All rights are reserved except as described in the repository's BRAND.md:
+
+https://github.com/Kamitoad/one-less-video/blob/main/BRAND.md
+
+The source code is separately available under the MIT License. Modified or
+independently distributed versions must use a different name and logo unless
+prior written permission has been granted.

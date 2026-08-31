@@ -35,6 +35,7 @@ npm test
 npm run test:e2e
 npm run build
 npm run check
+npm run release:prepare
 ```
 
 Run `npx playwright install chromium` once before E2E tests.
@@ -45,6 +46,8 @@ Run `npx playwright install chromium` once before E2E tests.
 - Keep content entrypoints small and avoid global mutable singletons.
 - Add regression tests for core logic, races, and YouTube-adapter changes.
 - Keep user copy centralized; do not log personal content or video history.
+- Keep `PRIVACY.md` and `docs/STORE_LISTING.md` synchronized with actual data handling and permissions.
+- Keep bundled third-party license notices in every distributable package.
 - Do not add YouTube selectors outside the YouTube adapter.
 - Do not commit build output, browser profiles, reports, or secrets.
 - Never use destructive Git commands, commit, or push without explicit user instruction.
