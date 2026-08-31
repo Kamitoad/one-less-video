@@ -1,0 +1,69 @@
+name: Bug report
+description: Report a reproducible problem in OneLessVideo.
+title: 'Bug: '
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Do not include intention text, browsing history, account data, or other personal information. Report security issues privately through the repository's Security tab.
+  - type: input
+    id: version
+    attributes:
+      label: OneLessVideo version
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Opera 134 or Chrome 140
+    validations:
+      required: true
+  - type: dropdown
+    id: page
+    attributes:
+      label: Affected surface
+      options:
+        - YouTube intervention
+        - Popup
+        - Options page
+        - Installation or update
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Use placeholder video IDs and text instead of personal data.
+      placeholder: |
+        1. Open a regular YouTube watch page.
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I tested with the latest available OneLessVideo version.
+          required: true
+        - label: This report contains no personal or sensitive information.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

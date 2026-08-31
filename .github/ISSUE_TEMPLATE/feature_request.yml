@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest a focused improvement to OneLessVideo.
+title: 'Feat: '
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy and permissions impact
+      description: State whether this needs new data, persistence, network access, permissions, or third-party services.
+      placeholder: No new data, permissions, or network access.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: The proposal supports OneLessVideo's single purpose of intentional YouTube viewing.
+          required: true
