@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "description": "A browser extension that adds intentional friction before YouTube videos to interrupt mindless watching.",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kamitoad/one-less-video.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kamitoad/one-less-video/issues"
+  },
+  "homepage": "https://github.com/Kamitoad/one-less-video#readme",
   "type": "module",
   "engines": {
     "node": ">=24 <25"
@@ -11,6 +20,9 @@
     "postinstall": "wxt prepare",
     "dev": "wxt",
     "build": "wxt build",
+    "zip": "wxt zip",
+    "release:verify": "node scripts/verify-release.mjs",
+    "release:prepare": "npm run check && npm run zip && npm run release:verify",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
