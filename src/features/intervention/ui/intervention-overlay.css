@@ -6,6 +6,7 @@
   --olv-muted: #b3b7bf;
   --olv-border: #4a4f58;
   --olv-accent: #d8dce4;
+  --olv-progress: #59616d;
   --olv-danger: #f0a4a4;
   position: fixed;
   inset: 0;
@@ -263,16 +264,28 @@ button:hover {
   overflow: hidden;
   align-self: center;
   justify-self: center;
+  color: var(--olv-text);
+  background-color: var(--olv-surface);
+}
+
+.continue-button:hover {
+  background-color: var(--olv-surface-raised);
 }
 
 .continue-button::before {
   position: absolute;
+  z-index: 0;
   inset: 0;
-  background: #fff;
+  background: var(--olv-progress);
   content: '';
-  opacity: 0.45;
+  pointer-events: none;
   transform: scaleX(0);
   transform-origin: left;
+}
+
+.continue-button-label {
+  position: relative;
+  z-index: 1;
 }
 
 .continue-button.is-holding::before {
@@ -280,6 +293,10 @@ button:hover {
 }
 
 @keyframes approval-progress {
+  from {
+    transform: scaleX(0);
+  }
+
   to {
     transform: scaleX(1);
   }
@@ -343,6 +360,7 @@ button:hover {
 
   .continue-button.is-holding::before {
     animation: none;
+    transform: scaleX(1);
   }
 
   .error.validation-shake {

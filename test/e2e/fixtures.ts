@@ -19,6 +19,7 @@ export const test = base.extend<ExtensionFixtures>({
     > = {
       headless: true,
       locale: 'en-US',
+      reducedMotion: 'no-preference',
       args: [
         '--lang=en-US',
         `--disable-extensions-except=${extensionPath}`,

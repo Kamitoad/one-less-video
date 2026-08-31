@@ -96,11 +96,23 @@ test('completes the intentional viewing flow and removes the lock UI', async ({
   await challengeInput.fill(challenge.toLowerCase());
   await expect(challengeInput).toHaveValue(challenge);
   await overlay.getByRole('button', { name: 'Continue' }).click();
-  const approve = overlay.getByRole('button', {
-    name: 'Hold for 3 seconds',
-  });
+  const approve = overlay.locator('.continue-button');
+  await expect(approve).toHaveAccessibleName('Hold for 3 seconds');
   await approve.hover();
+  const initialTextColor = await approve.evaluate(
+    (button) => getComputedStyle(button).color,
+  );
   await page.mouse.down();
+  await expect
+    .poll(() =>
+      approve.evaluate(
+        (button) => getComputedStyle(button, '::before').transform,
+      ),
+    )
+    .not.toBe('matrix(0, 0, 0, 1, 0, 0)');
+  await expect
+    .poll(() => approve.evaluate((button) => getComputedStyle(button).color))
+    .toBe(initialTextColor);
   await page.waitForTimeout(3_100);
   await page.mouse.up();
 

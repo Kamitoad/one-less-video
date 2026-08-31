@@ -98,6 +98,7 @@ function clearValidationError(form: HTMLFormElement, error: HTMLElement): void {
 
 function waitForDecision(
   approveButton: HTMLButtonElement,
+  approveLabel: HTMLElement,
   abortButton: HTMLButtonElement,
   signal: AbortSignal,
 ): Promise<InterventionOutcome> {
@@ -121,7 +122,7 @@ function waitForDecision(
       }
       holdStartedAt = undefined;
       approveButton.classList.remove('is-holding');
-      approveButton.textContent = translate('watchHoldButton');
+      approveLabel.textContent = translate('watchHoldButton');
     };
     const cleanup = (): void => {
       resetHold();
@@ -152,7 +153,7 @@ function waitForDecision(
         APPROVAL_HOLD_MS - (Date.now() - holdStartedAt),
       );
       const remainingSeconds = Math.ceil(remainingMs / 1_000);
-      approveButton.textContent = translate(
+      approveLabel.textContent = translate(
         remainingSeconds === 1 ? 'watchHoldingOne' : 'watchHoldingMany',
         [remainingSeconds],
       );
@@ -557,14 +558,20 @@ export class InterventionOverlay implements InterventionExperience {
       this.document,
       'button',
       `primary continue-button position-${plan.continueButtonPosition}`,
-      translate('watchHoldButton'),
     );
     approveButton.type = 'button';
+    const approveLabel = createElement(
+      this.document,
+      'span',
+      'continue-button-label',
+      translate('watchHoldButton'),
+    );
+    approveButton.append(approveLabel);
     grid.append(approveButton);
     mounted.content.replaceChildren(title, copy, abortButton, grid);
     abortButton.focus();
 
-    return waitForDecision(approveButton, abortButton, signal);
+    return waitForDecision(approveButton, approveLabel, abortButton, signal);
   }
 
   private keepFocusInside(event: KeyboardEvent, shadow: ShadowRoot): void {
